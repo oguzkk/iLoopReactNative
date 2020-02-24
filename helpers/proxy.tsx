@@ -1,6 +1,10 @@
 import { AuthResponseDafaults, baseUrl } from "./constants";
-import { IAuthResponse, IExpenseItem, IKeyValuePairResponse } from "./models";
-import { StaticData } from "./staticData";
+import {
+  IAuthResponse,
+  IExpenseItem,
+  IKeyValuePairResponse,
+  IKeyValuePair
+} from "./models";
 
 export const authanticate = (userName: string, password: string) => {
   return new Promise<IAuthResponse>((resolve, reject) => {
@@ -29,7 +33,7 @@ export const authanticate = (userName: string, password: string) => {
 };
 
 export const getExpenseCurrencyList = () => {
-  return new Promise<void>((resolve, reject) => {
+  return new Promise<IKeyValuePair[]>((resolve, reject) => {
     fetch(baseUrl + "/api/user/GetExpenseCurrency", {
       credentials: "same-origin",
       mode: "cors",
@@ -42,18 +46,18 @@ export const getExpenseCurrencyList = () => {
       .then(response => response.json())
       .then((responseJson: IKeyValuePairResponse) => {
         if (responseJson.hasError == false) {
-          StaticData.CurrencyList = responseJson.keyValuePairs;
+          return resolve(responseJson.keyValuePairs);
         }
-        return resolve();
+        return resolve([]);
       })
       .catch(ex => {
-        return resolve();
+        return resolve([]);
       });
   });
 };
 
 export const getExpenseProjectList = () => {
-  return new Promise<void>((resolve, reject) => {
+  return new Promise<IKeyValuePair[]>((resolve, reject) => {
     fetch(baseUrl + "/api/user/GetExpenseProjects", {
       credentials: "same-origin",
       mode: "cors",
@@ -66,12 +70,12 @@ export const getExpenseProjectList = () => {
       .then(response => response.json())
       .then((responseJson: IKeyValuePairResponse) => {
         if (responseJson.hasError == false) {
-          StaticData.ProjectList = responseJson.keyValuePairs;
+          return resolve(responseJson.keyValuePairs);
         }
-        return resolve();
+        return resolve([]);
       })
       .catch(ex => {
-        return resolve();
+        return resolve([]);
       });
   });
 };

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import Exapnse from "../components/expense";
 import { ExpenseItemDefaults } from "../helpers/constants";
-import { IExpenseItem } from "../helpers/models";
+import { IExpenseItem, IKeyValuePair } from "../helpers/models";
 import {
   getExpenseCurrencyList,
   getExpenseProjectList,
@@ -18,9 +18,16 @@ export default function Expenses(props: IExpensesProps) {
   const [expenseList, setExpenseList] = useState<IExpenseItem[]>([
     ExpenseItemDefaults
   ]);
+  const [currencyList, setCurrencyList] = useState<IKeyValuePair[]>([]);
+  const [projectList, setProjectList] = useState<IKeyValuePair[]>([]);
+
   useEffect(() => {
-    getExpenseCurrencyList();
-    getExpenseProjectList();
+    getExpenseCurrencyList().then(response => {
+      setCurrencyList(response);
+    });
+    getExpenseProjectList().then(response => {
+      setProjectList(response);
+    });
   }, []);
 
   const addNewExpense = () => {
@@ -53,6 +60,8 @@ export default function Expenses(props: IExpensesProps) {
           index={index}
           updateItem={updateItem}
           item={expenseItem}
+          projectList={projectList}
+          currencyList={currencyList}
         ></Exapnse>
       );
     });

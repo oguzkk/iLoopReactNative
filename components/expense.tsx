@@ -3,13 +3,14 @@ import React from "react";
 import { StyleSheet, View, Text, TextInput, Picker } from "react-native";
 import DatePicker from "react-native-datepicker";
 import { defaultDateFormat } from "../helpers/constants";
-import { IExpenseItem } from "../helpers/models";
-import { StaticData } from "../helpers/staticData";
+import { IExpenseItem, IKeyValuePair } from "../helpers/models";
 
 export interface IExpenseProps {
   index: number;
   item: IExpenseItem;
   updateItem(index: number, item: IExpenseItem);
+  projectList: IKeyValuePair[];
+  currencyList: IKeyValuePair[];
 }
 
 export default function Expense(props: IExpenseProps) {
@@ -39,30 +40,36 @@ export default function Expense(props: IExpenseProps) {
       </View>
       <View style={styles.lineContainer}>
         <Text style={styles.label}>Project: </Text>
-        <Picker
-          selectedValue={props.item.projectKey}
-          onValueChange={(itemValue, itemIndex) => {
-            const newItem = { ...props.item };
-            newItem.projectKey = itemValue;
-            props.updateItem(props.index, newItem);
-          }}
-        >
-          {StaticData.ProjectList.map((item, index) => {
-            return (
-              <Picker.Item key={index} label={item.value} value={item.key} />
-            );
-          })}
-        </Picker>
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={props.item.projectKey}
+            onValueChange={(itemValue, itemIndex) => {
+              const newItem = { ...props.item };
+              newItem.projectKey = itemValue;
+              props.updateItem(props.index, newItem);
+            }}
+          >
+            {props.projectList.map((item, index) => {
+              return (
+                <Picker.Item key={index} label={item.value} value={item.key} />
+              );
+            })}
+          </Picker>
+        </View>
+      </View>
+      <View style={styles.lineContainer}>
         <Text style={styles.label}>Description: </Text>
-        <TextInput
-          value={props.item.description}
-          style={styles.input}
-          onChangeText={(text: string) => {
-            const newItem = { ...props.item };
-            newItem.description = text;
-            props.updateItem(props.index, newItem);
-          }}
-        ></TextInput>
+        <View style={styles.descriptionContainer}>
+          <TextInput
+            value={props.item.description}
+            style={styles.input}
+            onChangeText={(text: string) => {
+              const newItem = { ...props.item };
+              newItem.description = text;
+              props.updateItem(props.index, newItem);
+            }}
+          ></TextInput>
+        </View>
       </View>
       <View style={styles.lineContainer}>
         <Text style={styles.label}>Expense: </Text>
@@ -85,7 +92,7 @@ export default function Expense(props: IExpenseProps) {
             props.updateItem(props.index, newItem);
           }}
         >
-          {StaticData.CurrencyList.map((item, index) => {
+          {props.currencyList.map((item, index) => {
             return (
               <Picker.Item key={index} label={item.value} value={item.key} />
             );
@@ -107,6 +114,7 @@ const styles = StyleSheet.create({
     width: "90%"
   },
   lineContainer: {
+    width: "100%",
     flexDirection: "row",
     alignItems: "center"
   },
@@ -117,5 +125,11 @@ const styles = StyleSheet.create({
   input: {
     width: "35%",
     borderWidth: 1
+  },
+  pickerContainer: {
+    width: "80%"
+  },
+  descriptionContainer: {
+    width: "200%"
   }
 });
