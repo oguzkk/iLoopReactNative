@@ -27,6 +27,8 @@ export default function Expense(props: IExpenseProps) {
             props.updateItem(props.index, newItem);
           }}
         ></DatePicker>
+      </View>
+      <View style={styles.lineContainer}>
         <Text style={styles.label}>Bill No: </Text>
         <TextInput
           value={props.item.plug}
@@ -83,21 +85,25 @@ export default function Expense(props: IExpenseProps) {
             props.updateItem(props.index, newItem);
           }}
         ></TextInput>
+      </View>
+      <View style={styles.lineContainer}>
         <Text style={styles.label}>Currency: </Text>
-        <Picker
-          selectedValue={props.item.currencyKey}
-          onValueChange={(itemValue, itemIndex) => {
-            const newItem = { ...props.item };
-            newItem.currencyKey = itemValue;
-            props.updateItem(props.index, newItem);
-          }}
-        >
-          {props.currencyList.map((item, index) => {
-            return (
-              <Picker.Item key={index} label={item.value} value={item.key} />
-            );
-          })}
-        </Picker>
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={props.item.currencyKey}
+            onValueChange={(itemValue, itemIndex) => {
+              const newItem = { ...props.item };
+              newItem.currencyKey = itemValue;
+              props.updateItem(props.index, newItem);
+            }}
+          >
+            {props.currencyList.map((item, index) => {
+              return (
+                <Picker.Item key={index} label={item.value} value={item.key} />
+              );
+            })}
+          </Picker>
+        </View>
       </View>
     </View>
   );
@@ -116,7 +122,8 @@ const styles = StyleSheet.create({
   lineContainer: {
     width: "100%",
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    marginBottom: 5
   },
   label: {
     fontWeight: "bold",
@@ -127,9 +134,10 @@ const styles = StyleSheet.create({
     borderWidth: 1
   },
   pickerContainer: {
-    width: "80%"
+    alignContent: "flex-end",
+    width: "60%"
   },
   descriptionContainer: {
-    width: "200%"
+    width: "100%"
   }
 });

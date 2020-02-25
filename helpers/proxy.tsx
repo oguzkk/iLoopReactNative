@@ -9,7 +9,7 @@ import {
 export const authanticate = (userName: string, password: string) => {
   return new Promise<IAuthResponse>((resolve, reject) => {
     fetch(baseUrl + "/api/auth/post", {
-      credentials: "same-origin",
+      credentials: "include",
       mode: "cors",
       method: "POST",
       headers: {
@@ -35,7 +35,7 @@ export const authanticate = (userName: string, password: string) => {
 export const getExpenseCurrencyList = () => {
   return new Promise<IKeyValuePair[]>((resolve, reject) => {
     fetch(baseUrl + "/api/user/GetExpenseCurrency", {
-      credentials: "same-origin",
+      credentials: "include",
       mode: "cors",
       method: "GET",
       headers: {
@@ -51,6 +51,7 @@ export const getExpenseCurrencyList = () => {
         return resolve([]);
       })
       .catch(ex => {
+
         return resolve([]);
       });
   });
