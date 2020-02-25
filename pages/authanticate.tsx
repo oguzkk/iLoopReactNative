@@ -57,7 +57,6 @@ export default function Authanticate(props: IAuthanticateProps) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#fff",
     justifyContent: "flex-start",
     width: "100%"
@@ -69,8 +68,6 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     justifyContent: "center",
-    flex: 1,
-    marginTop: -150
   },
   text: {
     fontWeight: "bold",

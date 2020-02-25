@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import { AuthResponseDafaults } from "./helpers/constants";
 import { IAuthResponse } from "./helpers/models";
 import Authanticate from "./pages/authanticate";
@@ -11,13 +11,15 @@ export default function App() {
   );
 
   return (
-    <View style={styles.container}>
-      {authResponse.authenticated ? (
-        <Expenses fullName={authResponse.fullName}></Expenses>
-      ) : (
-        <Authanticate setAuthResponse={setAuthResponse}></Authanticate>
-      )}
-    </View>
+    <ScrollView>
+      <View style={styles.container}>
+        {authResponse.authenticated ? (
+          <Expenses fullName={authResponse.fullName}></Expenses>
+        ) : (
+            <Authanticate setAuthResponse={setAuthResponse}></Authanticate>
+          )}
+      </View>
+    </ScrollView>
   );
 }
 
