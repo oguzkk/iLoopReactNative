@@ -95,10 +95,7 @@ export const saveExpenses = (expenseList: IExpenseItem[]) => {
     })
       .then(response => response.json())
       .then((responseJson: IKeyValuePairResponse) => {
-        if (responseJson.hasError == false) {
-          return resolve(true);
-        }
-        return resolve(false);
+        return resolve(true);
       })
       .catch(ex => {
         return resolve(false);
